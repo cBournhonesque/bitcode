@@ -15,8 +15,6 @@ pub trait Read {
     fn read_bits(&mut self, bits: usize) -> Result<Word>;
     /// Reads `len` bytes.
     fn read_bytes(&mut self, len: NonZeroUsize) -> Result<&[u8]>;
-    /// Reads `len` with a [`ByteEncoding`].
-    fn read_encoded_bytes<C: ByteEncoding>(&mut self, len: NonZeroUsize) -> Result<&[u8]>;
     /// Ensures that at least `bits` remain. Never underreports remaining bits.
     fn reserve_bits(&self, bits: usize) -> Result<()>;
 }

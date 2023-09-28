@@ -41,16 +41,17 @@ impl<C: ByteEncoding> Encoding for BitString<C> {
 
     #[inline(always)]
     fn read_bytes(self, reader: &mut impl Read, len: NonZeroUsize) -> Result<&[u8]> {
-        let is_valid = !reader.read_bit()?;
-        if is_valid {
-            reader.read_encoded_bytes::<C>(len)
-        } else {
-            #[cold]
-            fn cold(reader: &mut impl Read, len: NonZeroUsize) -> Result<&[u8]> {
-                reader.read_bytes(len)
-            }
-            cold(reader, len)
-        }
+        unimplemented!()
+        // let is_valid = !reader.read_bit()?;
+        // if is_valid {
+        //     reader.read_encoded_bytes::<C>(len)
+        // } else {
+        //     #[cold]
+        //     fn cold(reader: &mut impl Read, len: NonZeroUsize) -> Result<&[u8]> {
+        //         reader.read_bytes(len)
+        //     }
+        //     cold(reader, len)
+        // }
     }
 }
 
