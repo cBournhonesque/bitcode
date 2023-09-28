@@ -121,7 +121,7 @@ pub use crate::serde::{deserialize, serialize};
 pub mod buffer;
 mod code;
 mod code_impls;
-mod encoding;
+pub mod encoding;
 mod guard;
 mod nightly;
 pub mod read;
