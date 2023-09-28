@@ -100,17 +100,6 @@ impl Write for BitWriter {
         self.bits
             .extend_from_bitslice(BitSlice::<u8, Lsb0>::from_slice(bytes));
     }
-
-    fn write_encoded_bytes<C: ByteEncoding>(&mut self, bytes: &[u8]) -> bool {
-        for b in bytes {
-            let word = *b as Word;
-            if !C::validate(word, 1) {
-                return false;
-            }
-            self.write_bits(C::pack(word), C::BITS_PER_BYTE)
-        }
-        true
-    }
 }
 
 pub struct BitReader<'a> {

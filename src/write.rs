@@ -10,9 +10,7 @@ pub trait Write {
     fn write_bits(&mut self, word: Word, bits: usize);
     /// Writes `bytes`.
     fn write_bytes(&mut self, bytes: &[u8]);
-    /// Writes `bytes` with a [`ByteEncoding`]. Returns if the bytes are valid according to
-    /// [`ByteEncoding::validate`].
-    fn write_encoded_bytes<C: ByteEncoding>(&mut self, bytes: &[u8]) -> bool;
+
     /// Writes `false`. Might be faster than `writer.write_bit(false)`.
     #[inline(always)]
     fn write_false(&mut self) {

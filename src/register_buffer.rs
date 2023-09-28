@@ -104,10 +104,6 @@ impl Write for Register {
     fn write_bytes(&mut self, _: &[u8]) {
         unimplemented!()
     }
-
-    fn write_encoded_bytes<C: ByteEncoding>(&mut self, _: &[u8]) -> bool {
-        unimplemented!()
-    }
 }
 
 impl Read for Register {

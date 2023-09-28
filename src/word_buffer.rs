@@ -354,30 +354,6 @@ impl Write for WordWriter {
     }
 
     #[inline(always)]
-    fn write_encoded_bytes<C: ByteEncoding>(&mut self, mut bytes: &[u8]) -> bool {
-        // TODO could reserve bytes.len() * C::BITS_PER_BYTE.
-
-        while bytes.len() > 8 {
-            let (bytes8, remaining) = bytes.split_at(8);
-            let bytes8: &[u8; 8] = bytes8.try_into().unwrap();
-            bytes = remaining;
-
-            let word = Word::from_le_bytes(*bytes8);
-            if !C::validate(word, WORD_BYTES) {
-                return false;
-            }
-            self.write_bits(C::pack(word), WORD_BYTES * C::BITS_PER_BYTE);
-        }
-
-        let word = Word::from_le_bytes_or_zeroed(bytes);
-        if !C::validate(word, bytes.len()) {
-            return false;
-        }
-        self.write_bits(C::pack(word), bytes.len() * C::BITS_PER_BYTE);
-        true
-    }
-
-    #[inline(always)]
     fn write_zeros(&mut self, bits: usize) {
         debug_assert!(bits <= WORD_BITS);
         self.index += bits;
