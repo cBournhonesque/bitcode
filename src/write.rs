@@ -20,6 +20,9 @@ pub trait Write {
     fn write_zeros(&mut self, bits: usize) {
         self.write_bits(0, bits);
     }
+
+    /// Number of bits that were written to the Writer
+    fn num_bits_written(&self) -> usize;
 }
 
 #[cfg(all(test, not(miri)))]

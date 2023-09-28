@@ -104,6 +104,10 @@ impl Write for Register {
     fn write_bytes(&mut self, _: &[u8]) {
         unimplemented!()
     }
+
+    fn num_bits_written(&self) -> usize {
+        self.index
+    }
 }
 
 impl Read for Register {

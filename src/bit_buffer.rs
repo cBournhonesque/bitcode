@@ -100,6 +100,10 @@ impl Write for BitWriter {
         self.bits
             .extend_from_bitslice(BitSlice::<u8, Lsb0>::from_slice(bytes));
     }
+
+    fn num_bits_written(&self) -> usize {
+        self.bits.len()
+    }
 }
 
 pub struct BitReader<'a> {

@@ -358,6 +358,10 @@ impl Write for WordWriter {
         debug_assert!(bits <= WORD_BITS);
         self.index += bits;
     }
+
+    fn num_bits_written(&self) -> usize {
+        self.index
+    }
 }
 
 struct WordReaderInner<'a> {
