@@ -512,44 +512,6 @@ impl<'a> Read for WordReader<'a> {
     }
 
     #[inline(always)]
-    fn read_encoded_bytes<C: ByteEncoding>(&mut self, len: NonZeroUsize) -> Result<&[u8]> {
-        let len = len.get();
-        let whole_words_len = (len - 1) / WORD_BYTES;
-        let word_len = whole_words_len + 1;
-
-        // Only allocate after reserved to prevent memory exhaustion attacks.
-        let read = self.inner.index / WORD_BITS + 2 + whole_words_len * C::BITS_PER_BYTE / 8;
-        if read >= self.inner.words.len() {
-            return Err(E::Eof.e());
-        }
-
-        let buf = &mut *self.read_bytes_buf;
-        let words = if let Some(slice) = buf.get_mut(..word_len) {
-            slice
-        } else {
-            alloc_read_bytes_buf(buf, word_len);
-            &mut buf[..word_len]
-        };
-
-        let whole_words = &mut words[..whole_words_len];
-        for w in whole_words {
-            *w = C::unpack(self.inner.peek_reserved_bits(WORD_BITS));
-            self.inner.index += WORD_BYTES * C::BITS_PER_BYTE;
-        }
-
-        let remaining_bytes = len - whole_words_len * WORD_BYTES;
-        debug_assert!((1..=8).contains(&remaining_bytes));
-        *words.last_mut().unwrap() = C::unpack(self.inner.peek_reserved_bits(WORD_BITS));
-        self.inner.index += remaining_bytes * C::BITS_PER_BYTE;
-
-        // Swap bytes in each word (that was written to) if big endian and bytemuck to bytes.
-        if cfg!(target_endian = "big") {
-            words.iter_mut().for_each(|w| *w = w.swap_bytes());
-        }
-        Ok(&bytemuck::cast_slice(self.read_bytes_buf)[..len])
-    }
-
-    #[inline(always)]
     fn reserve_bits(&self, bits: usize) -> Result<()> {
         // TODO could make this overestimate remaining bits by a small amount to simplify logic.
         let whole_words_len = bits / WORD_BITS;

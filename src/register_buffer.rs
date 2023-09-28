@@ -139,10 +139,6 @@ impl Read for Register {
         unimplemented!()
     }
 
-    fn read_encoded_bytes<C: ByteEncoding>(&mut self, _: NonZeroUsize) -> Result<&[u8]> {
-        unimplemented!()
-    }
-
     fn reserve_bits(&self, _: usize) -> Result<()> {
         unimplemented!()
     }

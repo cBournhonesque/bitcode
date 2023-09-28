@@ -185,31 +185,6 @@ impl Read for BitReader<'_> {
         Ok(&self.read_bytes_buf[..len])
     }
 
-    fn read_encoded_bytes<C: ByteEncoding>(&mut self, len: NonZeroUsize) -> Result<&[u8]> {
-        let len = len.get();
-
-        // Take to avoid borrowing issue.
-        let mut tmp = std::mem::take(self.read_bytes_buf);
-
-        let bits = len
-            .checked_mul(C::BITS_PER_BYTE)
-            .ok_or_else(|| E::Eof.e())?;
-        let slice = self.read_slice(bits)?;
-
-        // Only allocate after reserve_read to prevent memory exhaustion attacks.
-        if tmp.len() < len {
-            tmp = vec![0; len.next_power_of_two()].into_boxed_slice()
-        }
-
-        for (dst, src) in tmp[..len].iter_mut().zip(slice.chunks(C::BITS_PER_BYTE)) {
-            let mut byte = [0u8];
-            byte.as_mut_bits()[..C::BITS_PER_BYTE].copy_from_bitslice(src);
-            *dst = C::unpack(byte[0] as Word) as u8;
-        }
-        *self.read_bytes_buf = tmp;
-        Ok(&self.read_bytes_buf[..len])
-    }
-
     fn reserve_bits(&self, bits: usize) -> Result<()> {
         if bits <= self.bits.len() {
             Ok(())
