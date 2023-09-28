@@ -121,7 +121,7 @@ impl BufferTrait for WordBuffer {
         &bytemuck::cast_slice(written_words)[..written_bytes]
     }
 
-    fn start_read<'a>(&'a mut self, bytes: &'a [u8]) -> (Self::Reader<'a>, Self::Context) {
+    fn start_read(&mut self, bytes: &[u8]) -> (Self::Reader<'_>, Self::Context) {
         let words = self.allocation.make_vec();
         words.clear();
 
