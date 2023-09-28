@@ -32,7 +32,7 @@ use crate::{Result, E};
 /// let _owned: Vec<u8> = encoded.to_vec();
 /// ```
 #[derive(Default)]
-pub struct Buffer(pub(crate) WordBuffer);
+pub struct Buffer(pub WordBuffer);
 
 impl Buffer {
     /// Constructs a new buffer without any capacity.

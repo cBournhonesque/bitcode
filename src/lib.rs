@@ -118,17 +118,17 @@ pub use bitcode_derive::{Decode, Encode};
 #[cfg(any(test, feature = "serde"))]
 pub use crate::serde::{deserialize, serialize};
 
-mod buffer;
+pub mod buffer;
 mod code;
 mod code_impls;
 mod encoding;
 mod guard;
 mod nightly;
-mod read;
+pub mod read;
 mod register_buffer;
 mod word;
-mod word_buffer;
-mod write;
+pub mod word_buffer;
+pub mod write;
 
 #[doc(hidden)]
 pub mod __private;
