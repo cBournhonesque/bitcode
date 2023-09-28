@@ -3,12 +3,6 @@ use crate::word::Word;
 
 /// Abstracts over writing bits to a buffer.
 pub trait Write {
-    /// Reverts allow reverting writes. Doing so can be expensive so make sure it only happens in
-    /// the cold path. This is useful for writing/validating data at the same time.
-    type Revert;
-    fn get_revert(&mut self) -> Self::Revert;
-    fn revert(&mut self, revert: Self::Revert);
-
     /// Writes a bit. If `v` is always `false` use [`Self::write_false`].
     fn write_bit(&mut self, v: bool);
     /// Writes up to 64 bits. The index of `word`'s most significant 1 must be < `bits`.

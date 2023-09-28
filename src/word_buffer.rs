@@ -289,29 +289,6 @@ impl WordWriter {
 }
 
 impl Write for WordWriter {
-    type Revert = usize;
-    #[inline(always)]
-    fn get_revert(&mut self) -> Self::Revert {
-        self.index
-    }
-    #[cold]
-    fn revert(&mut self, revert: Self::Revert) {
-        // min with self.words.len() since if writing zeros, the words might not have been allocated.
-        let start = div_ceil(revert, WORD_BITS).min(self.words.len());
-        let end = (div_ceil(self.index, WORD_BITS)).min(self.words.len());
-
-        // Zero whole words.
-        self.words[start..end].fill(0);
-
-        // Zero remaining bits. Might not have been allocated if writing zeros.
-        let i = revert / WORD_BITS;
-        if i < self.words.len() {
-            let keep_up_to = revert % WORD_BITS;
-            self.words[i] &= (1 << keep_up_to) - 1;
-        }
-        self.index = revert;
-    }
-
     #[inline(always)]
     fn write_bit(&mut self, v: bool) {
         let bit_index = self.index;

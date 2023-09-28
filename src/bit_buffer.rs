@@ -87,14 +87,6 @@ pub struct BitWriter {
 }
 
 impl Write for BitWriter {
-    type Revert = usize;
-    fn get_revert(&mut self) -> Self::Revert {
-        self.bits.len()
-    }
-    fn revert(&mut self, index: Self::Revert) {
-        self.bits.truncate(index);
-    }
-
     fn write_bit(&mut self, v: bool) {
         self.bits.push(v);
     }

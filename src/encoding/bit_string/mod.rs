@@ -17,25 +17,26 @@ pub struct BitString<C: ByteEncoding>(pub C);
 impl<C: ByteEncoding> Encoding for BitString<C> {
     #[inline(always)]
     fn write_byte_str(self, writer: &mut impl Write, bytes: &[u8]) {
-        let n = bytes.len();
-        n.encode(Gamma, writer).unwrap();
-        if n == 0 {
-            return;
-        }
-
-        let revert = writer.get_revert();
-        writer.write_false();
-        let is_valid = writer.write_encoded_bytes::<C>(bytes);
-
-        if !is_valid {
-            #[cold]
-            fn cold<W: Write>(writer: &mut W, v: &[u8], revert: W::Revert) {
-                writer.revert(revert);
-                writer.write_bit(true);
-                writer.write_bytes(v);
-            }
-            cold(writer, bytes, revert);
-        }
+        unimplemented!()
+        // let n = bytes.len();
+        // n.encode(Gamma, writer).unwrap();
+        // if n == 0 {
+        //     return;
+        // }
+        //
+        // let revert = writer.get_revert();
+        // writer.write_false();
+        // let is_valid = writer.write_encoded_bytes::<C>(bytes);
+        //
+        // if !is_valid {
+        //     #[cold]
+        //     fn cold<W: Write>(writer: &mut W, v: &[u8], revert: W::Revert) {
+        //         writer.revert(revert);
+        //         writer.write_bit(true);
+        //         writer.write_bytes(v);
+        //     }
+        //     cold(writer, bytes, revert);
+        // }
     }
 
     #[inline(always)]
