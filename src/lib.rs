@@ -126,7 +126,7 @@ mod guard;
 mod nightly;
 pub mod read;
 mod register_buffer;
-mod word;
+pub mod word;
 pub mod word_buffer;
 pub mod write;
 
@@ -254,7 +254,7 @@ impl E {
     }
 }
 
-type Result<T> = std::result::Result<T, Error>;
+pub type Result<T> = std::result::Result<T, Error>;
 
 impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
