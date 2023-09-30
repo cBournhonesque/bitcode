@@ -134,7 +134,7 @@ pub mod write;
 pub mod __private;
 
 #[cfg(any(test, feature = "serde"))]
-mod serde;
+pub mod serde;
 
 #[cfg(all(test, not(miri)))]
 mod benches;

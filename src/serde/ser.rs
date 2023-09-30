@@ -25,7 +25,7 @@ pub fn serialize_compat(
     t.serialize(BitcodeSerializer { encoding, writer })
 }
 
-struct BitcodeSerializer<'a, C, W> {
+pub struct BitcodeSerializer<'a, C, W> {
     encoding: C,
     writer: &'a mut W,
 }

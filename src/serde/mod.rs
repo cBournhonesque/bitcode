@@ -2,8 +2,8 @@ use crate::{Buffer, Error, Result};
 use serde::{de::DeserializeOwned, Serialize};
 use std::fmt::Display;
 
-pub(crate) mod de;
-pub(crate) mod ser;
+pub mod de;
+pub mod ser;
 
 /// Serializes a `T:` [`Serialize`] into a [`Vec<u8>`].
 ///
